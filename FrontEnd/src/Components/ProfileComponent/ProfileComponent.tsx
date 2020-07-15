@@ -2,14 +2,13 @@
 
 
 import React, { FunctionComponent, useState, useEffect } from 'react'
-import { UserDisplayComponent } from '../UserDisplayComponent/UserDisplayComponent'
+import { UserDisplayComponent } from '../SearchResultsComponent/SearchResultsComponent'
 import { User } from '../../Models/Users'
 import { useParams } from 'react-router'
 import { getUserProfile } from '../../Remote/backend-getUserProfile'
 import { useSelector, useDispatch } from 'react-redux'
 import { IState } from '../../Reducers'
 import { updateProfileUser }  from '../../ActionMappers/profile-action-mapper'
-
 
 
 export const ProfileComponent : FunctionComponent<any> = (props) => {
@@ -49,10 +48,7 @@ export const ProfileComponent : FunctionComponent<any> = (props) => {
     return(
         (userProfile)?
         <div>
-            
             <UserDisplayComponent user={userProfile} />
-        
-
         </div>
         :
         <div>

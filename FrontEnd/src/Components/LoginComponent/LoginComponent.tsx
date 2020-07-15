@@ -35,30 +35,27 @@ export const LoginComponent: FunctionComponent <ILoginProps> = (props) => {
     const [password, changePassword] = useState('')
     
  
-    const updateUsername = (event : any) => {
+    const updateUsername = (event:any) => {
         event.preventDefault()
         changeUsername(event.currentTarget.value)
     }
-
     const updatePassword = (event : any) => {
         event.preventDefault()
         changePassword(event.currentTarget.value)
     }
 
-    const dispatch = useDispatch()
+
+    //const dispatch = useDispatch()
 
     const loginSubmit = async (e:SyntheticEvent) => {
         e.preventDefault()
         let res = await backendLogin(username, password)
+        console.log(res)
+        
         props.changeCurrUser(res)
         changePassword('')
 
-       // props.history.push(`/profile/${res.userId}`)
-
-
-        dispatch(updateLoginUser)
-        
-        
+        props.history.push(`/profile/${res.userId}`)       
     }
 
     const login = useSelector((state:IState) => {
@@ -67,13 +64,15 @@ export const LoginComponent: FunctionComponent <ILoginProps> = (props) => {
 
     return (
         <div>
-            <form className={classes.root} noValidate autoComplete="off">
+            <form autoComplete="off" onSubmit={loginSubmit}>
                 <TextField id="username-basic" label="Username" value ={username} onChange = {updateUsername}/>
                 <br/>
                 <TextField id="password-basic" label="Password" type = 'password' value = {password} onChange = {updatePassword}/>
                 <br/>
                 <Button type = 'submit' variant = 'contained' color = 'primary' onClick = {loginSubmit}> Login </Button>
+
             </form>
+            
         </div>
     )
 

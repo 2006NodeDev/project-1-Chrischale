@@ -138,7 +138,7 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
             </Menu>
 
             <Typography className={classes.title} variant="h6" noWrap>
-              ERS
+              Find a Friend
             </Typography>
             <div className={classes.search}>
                 <div className={classes.searchIcon}>

@@ -7,7 +7,7 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { TitleComponent } from './Components/TitleComponent/TitleComponent';
 import { User } from './Models/Users';
 import { ProfileComponent } from './Components/ProfileComponent/ProfileComponent';
-import { UserDisplayComponent } from './Components/UserDisplayComponent/UserDisplayComponent';
+import { UserDisplayComponent } from './Components/SearchResultsComponent/SearchResultsComponent';
 import { AllUsersComponent } from './Components/AllUsersComponent/AllUsersComponent';
 import { Provider } from 'react-redux';
 import { store } from './store';
@@ -42,8 +42,8 @@ function App() {
           </header>
         )}>
         </Route>
-        <Route path = '/login' render = {(props)=>(<LoginComponent changeCurrUser={changeCurrUser} {...props}/>)}></Route>
-        <Route path = '/profile/:userId' component={ProfileComponent}></Route>
+        <Route path = '/login' render = {(props)=>(<LoginComponent changeCurrUser={changeCurrUser} {...props}/>)}  />
+        <Route path = '/profile/:userId' component={ProfileComponent} />
         <Route path ='/users' component={AllUsersComponent}/>
         
 
