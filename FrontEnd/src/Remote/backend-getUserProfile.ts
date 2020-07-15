@@ -4,15 +4,15 @@ import { User } from '../Models/Users'
 
 
 
-export const getUserProfile = async (user:User) => {
+export const getUserProfile = async (userId:number) => {
     
     try{
-        let response = await proj1Client.get(`/users/${user.userId}`)
+        let response = await proj1Client.get(`/users/${userId}`)
         console.log(response)
         return response.data
 
     }catch(err){
-        console.log('get profile error' + err)
+        console.log('getting profile error' + err)
 
     }
     

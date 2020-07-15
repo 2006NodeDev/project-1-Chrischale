@@ -42,8 +42,8 @@ function App() {
           </header>
         )}>
         </Route>
-        <Route path = '/login' render = {(props)=>(<LoginComponent changeCurrUser={changeCurrUser} {...props}/>)}  />
-        <Route path = '/profile/:userId' component={ProfileComponent} />
+        <Route path = '/login' render = {(props)=>(<LoginComponent changeCurrUser={changeCurrUser} {...props}/>)}></Route>
+        <Route path = '/profile/:userId' component={ProfileComponent}></Route>
         <Route path ='/users' component={AllUsersComponent}/>
         
 

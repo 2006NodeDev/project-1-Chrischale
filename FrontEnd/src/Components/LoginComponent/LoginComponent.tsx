@@ -69,7 +69,8 @@ export const LoginComponent: FunctionComponent <ILoginProps> = (props) => {
                 <br/>
                 <TextField id="password-basic" label="Password" type = 'password' value = {password} onChange = {updatePassword}/>
                 <br/>
-                <Button type = 'submit' variant = 'contained' color = 'primary' onClick = {loginSubmit}> Login </Button>
+                <br/>
+                <Button type = 'submit' variant = 'contained' color = 'primary' onClick = {loginSubmit}> Submit </Button>
 
             </form>
             

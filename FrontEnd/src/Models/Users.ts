@@ -6,6 +6,7 @@ export interface User{
     password: string // not null
     firstName: string // not null
     lastName: string // not null
+    address:string
     email: string // not null
     roleDetails: Role // not null
 }

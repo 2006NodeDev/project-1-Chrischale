@@ -9,13 +9,13 @@ import { getUserProfile } from '../../Remote/backend-getUserProfile'
 import { useSelector, useDispatch } from 'react-redux'
 import { IState } from '../../Reducers'
 import { updateProfileUser }  from '../../ActionMappers/profile-action-mapper'
+import { Grid, Paper, makeStyles, createStyles, Theme } from '@material-ui/core'
 
 
-export const ProfileComponent : FunctionComponent<any> = (props) => {
-    let[userProfile, changeUserProfile] = useState<null | User>(null)
+export const ProfileComponent:FunctionComponent<any> = (props) => {
+    let[userProfile, changeUserProfile] = useState <null | User>(null)
     let {userId} = useParams()
     //to get userID from the path
-
     
     useEffect(() => {
         let getUser = async()=>{
@@ -42,13 +42,50 @@ export const ProfileComponent : FunctionComponent<any> = (props) => {
         dispatch(action)
     }
 
-    
+    const useStyles = makeStyles((theme: Theme) =>
+        createStyles({
+            root: {
+            flexGrow: 1,
+            },
+            paper: {
+            padding: theme.spacing(2),
+            textAlign: 'center',
+            color: theme.palette.text.secondary,
+            },
+        }),
+    );
 
-
+    const classes = useStyles();
+    console.log(userProfile)
     return(
+        
         (userProfile)?
-        <div>
-            <UserDisplayComponent user={userProfile} />
+            <div className={classes.root}>
+            <Grid container spacing={2}>
+            <Grid item xs>
+                <Paper className={classes.paper}>Name: {userProfile.firstName} {userProfile.lastName}</Paper>
+                <head>
+                    This is text stuff
+                </head>
+            </Grid>
+            <Grid item xs>
+                <Paper className={classes.paper}>Email: {userProfile.email}</Paper>
+            </Grid>
+            <Grid item xs>
+                <Paper className={classes.paper}>Address: {userProfile.address}</Paper>
+            </Grid>
+            <Grid item xs>
+                <Paper className={classes.paper}>Role: {userProfile.roleDetails.role}</Paper>
+            </Grid>
+            
+            <Grid item xs>
+                <Paper className={classes.paper}>xs=3</Paper>
+            </Grid>
+            <Grid item xs>
+                <Paper className={classes.paper}>xs=3</Paper>
+            </Grid>
+            </Grid>
+            
         </div>
         :
         <div>
