@@ -101,11 +101,11 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
     //defult menu always has login
     let menuItems = [<MenuItem onClick={handleClose}><Link to='/login'>Login</Link></MenuItem>]
     if(props.user){
-        menuItems.push(<MenuItem onClick={handleClose}><Link to='/home'>Home</Link></MenuItem>,
+        menuItems.push(<MenuItem onClick={handleClose}><Link to='/'>Home</Link></MenuItem>,
         <MenuItem onClick={handleClose}> <Link to={`/profile/${props.user?.userId}`}>My Profile</Link></MenuItem>)
     }
 
-    if(props.user && props.user.role === 'Finance Manager'){
+    if(props.user && props.user.roleDetails.role === ('Finance Manager' || 'Admin')){
       menuItems.push(<MenuItem onClick={handleClose}> <Link to='/users'>All Users</Link></MenuItem>)
       
     }
@@ -145,7 +145,7 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
                 <SearchIcon />
                 </div>
                 <InputBase
-                placeholder="Search…"
+                placeholder="Search..."
                 classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,

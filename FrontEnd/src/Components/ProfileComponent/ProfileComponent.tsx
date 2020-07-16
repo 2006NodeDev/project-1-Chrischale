@@ -2,7 +2,7 @@
 
 
 import React, { FunctionComponent, useState, useEffect } from 'react'
-import { UserDisplayComponent } from '../SearchResultsComponent/SearchResultsComponent'
+import { SearchUsersComponent } from '../SearchUsersComponent/SearchUsersComponent'
 import { User } from '../../Models/Users'
 import { useParams } from 'react-router'
 import { getUserProfile } from '../../Remote/backend-getUserProfile'
@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { IState } from '../../Reducers'
 import { updateProfileUser }  from '../../ActionMappers/profile-action-mapper'
 import { Grid, Paper, makeStyles, createStyles, Theme } from '@material-ui/core'
+import { DisplayUsersComponent } from '../DisplayUsersComponent/DisplayUsersComponent'
 
 
 export const ProfileComponent:FunctionComponent<any> = (props) => {
@@ -60,33 +61,7 @@ export const ProfileComponent:FunctionComponent<any> = (props) => {
     return(
         
         (userProfile)?
-            <div className={classes.root}>
-            <Grid container spacing={2}>
-            <Grid item xs>
-                <Paper className={classes.paper}>Name: {userProfile.firstName} {userProfile.lastName}</Paper>
-                <head>
-                    This is text stuff
-                </head>
-            </Grid>
-            <Grid item xs>
-                <Paper className={classes.paper}>Email: {userProfile.email}</Paper>
-            </Grid>
-            <Grid item xs>
-                <Paper className={classes.paper}>Address: {userProfile.address}</Paper>
-            </Grid>
-            <Grid item xs>
-                <Paper className={classes.paper}>Role: {userProfile.roleDetails.role}</Paper>
-            </Grid>
-            
-            <Grid item xs>
-                <Paper className={classes.paper}>xs=3</Paper>
-            </Grid>
-            <Grid item xs>
-                <Paper className={classes.paper}>xs=3</Paper>
-            </Grid>
-            </Grid>
-            
-        </div>
+        <DisplayUsersComponent user={userProfile}/>
         :
         <div>
             <h3> User Not Found</h3>

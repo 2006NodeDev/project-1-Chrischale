@@ -7,10 +7,11 @@ import { BrowserRouter as Router, Route, Redirect } from 'react-router-dom'
 import { TitleComponent } from './Components/TitleComponent/TitleComponent';
 import { User } from './Models/Users';
 import { ProfileComponent } from './Components/ProfileComponent/ProfileComponent';
-import { UserDisplayComponent } from './Components/SearchResultsComponent/SearchResultsComponent';
-import { AllUsersComponent } from './Components/AllUsersComponent/AllUsersComponent';
+import {SearchUsersComponent} from './Components/SearchUsersComponent/SearchUsersComponent'
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { DisplayUsersComponent } from './Components/DisplayUsersComponent/DisplayUsersComponent';
+import { EmailComponent } from './Components/EmailComponent/EmailComponent';
 
 
 
@@ -23,7 +24,7 @@ function App() {
       <Provider store={store}>
       <Router>
       <NavBarComponent user = {currUser}/>
-        <Route path = '/' render = {(props) => (
+        <Route exact path = '/' render = {(props) => (
           <header className="App-header">
             
             <TitleComponent title='Welcome to People Link! ' size = 'large' />
@@ -40,13 +41,11 @@ function App() {
             <Button variant="contained" color="primary" onClick = {()=>{props.history.push('/login');}}>Login</Button>
           
           </header>
-        )}>
-        </Route>
-        <Route path = '/login' render = {(props)=>(<LoginComponent changeCurrUser={changeCurrUser} {...props}/>)}></Route>
-        <Route path = '/profile/:userId' component={ProfileComponent}></Route>
-        <Route path ='/users' component={AllUsersComponent}/>
-        
-
+        )}></Route>
+        <Route path='/login' render={(props)=>(<LoginComponent changeCurrUser={changeCurrUser} {...props}/>)}></Route>
+        <Route exact path='/profile/:userId' component={ProfileComponent}></Route>
+        <Route exact path='/users' component={SearchUsersComponent}/>
+        <EmailComponent/>
       </Router>
       </Provider>
       </div>
