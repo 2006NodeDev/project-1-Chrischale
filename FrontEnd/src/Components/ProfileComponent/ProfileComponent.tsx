@@ -61,7 +61,12 @@ export const ProfileComponent:FunctionComponent<any> = (props) => {
     return(
         
         (userProfile)?
-        <DisplayUsersComponent user={userProfile}/>
+        <div>
+            Welcome {userProfile.firstName} {userProfile.lastName}
+            <DisplayUsersComponent user={userProfile}/>
+
+        </div>
+        
         :
         <div>
             <h3> User Not Found</h3>

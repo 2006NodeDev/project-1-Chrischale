@@ -12,6 +12,7 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import { DisplayUsersComponent } from './Components/DisplayUsersComponent/DisplayUsersComponent';
 import { EmailComponent } from './Components/EmailComponent/EmailComponent';
+import { NewUserComponent } from './Components/NewUserComponent/NewUserComponent';
 
 
 
@@ -36,16 +37,14 @@ function App() {
             >
             </a>
             Please Login to Continue
-            <br/>
-            <br />
-            <Button variant="contained" color="primary" onClick = {()=>{props.history.push('/login');}}>Login</Button>
-          
+            
           </header>
         )}></Route>
         <Route path='/login' render={(props)=>(<LoginComponent changeCurrUser={changeCurrUser} {...props}/>)}></Route>
         <Route exact path='/profile/:userId' component={ProfileComponent}></Route>
         <Route exact path='/users' component={SearchUsersComponent}/>
-        <EmailComponent/>
+        <Route path = '/contact' render={() => (<EmailComponent user={currUser} />)} />
+        <Route path = '/users/newuser' render={(props)=>(<NewUserComponent changeNewUser={changeCurrUser} {...props}/>)} />
       </Router>
       </Provider>
       </div>

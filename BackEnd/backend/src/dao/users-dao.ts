@@ -152,7 +152,6 @@ export async function newUser (new_user: User) : Promise <User> {
        
         let result = await client.query(`insert into ers."users" ("username", "password", "first_name", "last_name", "address", "email")
         values ($1, $2, $3, $4, $5, $6) returning *;`, [new_user.username, new_user.password, new_user.firstName, new_user.lastName, new_user.address, new_user.email])
-        
         return result.rows[0]
              
     }catch (err){

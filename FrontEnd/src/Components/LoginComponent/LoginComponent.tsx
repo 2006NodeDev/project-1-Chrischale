@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, SyntheticEvent } from 'react'
-import { TextField, makeStyles, createStyles, Theme, Button } from '@material-ui/core'
+import { TextField, makeStyles, createStyles, Theme, Button, FormGroup, FormControlLabel, Checkbox, CheckboxProps, withStyles } from '@material-ui/core'
 import { Route, Router, Redirect, RouteComponentProps } from 'react-router';
 import { ProfileComponent } from '../ProfileComponent/ProfileComponent';
 import {backendLogin} from '../../Remote/backend-login'
@@ -7,6 +7,7 @@ import { User } from '../../Models/Users';
 import { useSelector, useDispatch } from 'react-redux';
 import { ILoginState, IState } from '../../Reducers';
 import { updateLoginUser } from '../../ActionMappers/login-action-mapper';
+import { green } from '@material-ui/core/colors';
 
 
 
@@ -33,6 +34,10 @@ export const LoginComponent: FunctionComponent <ILoginProps> = (props) => {
 
     const [username, changeUsername] = useState('')
     const [password, changePassword] = useState('')
+
+    const [state, setState] = React.useState({
+      checkedA: true,
+    });
     
  
     const updateUsername = (event:any) => {
@@ -61,6 +66,10 @@ export const LoginComponent: FunctionComponent <ILoginProps> = (props) => {
     const login = useSelector((state:IState) => {
       return state.loginState.user
     })
+    
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setState({ ...state, [event.target.name]: event.target.checked });
+    };
 
     return (
         <div>
@@ -71,6 +80,18 @@ export const LoginComponent: FunctionComponent <ILoginProps> = (props) => {
                 <br/>
                 <br/>
                 <Button type = 'submit' variant = 'contained' color = 'primary' onClick = {loginSubmit}> Submit </Button>
+                <br />
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={state.checkedA}
+                      onChange={handleChange}
+                      name="checkedA"
+                      color="primary"
+                    />
+                  }
+                  label="Keep Me Logged In"
+                />
 
             </form>
             

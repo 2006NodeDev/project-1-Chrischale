@@ -83,9 +83,7 @@ uRouter.patch('/',authorizationMiddleware(['Finance Manager', 'Admin']), async (
 
 
 //add new user
-uRouter.put('/', authorizationMiddleware(['Finance Manager', 'Admin']), async (req:Request, res:Response, next: NextFunction) => {
-    //The reimbursementId must be present as well as all fields to update, 
-    //any field left undefined will not be updated. This can be used to approve and deny.
+uRouter.put('/newuser', async (req:Request, res:Response, next: NextFunction) => {
     
         let new_user: User = req.body
           

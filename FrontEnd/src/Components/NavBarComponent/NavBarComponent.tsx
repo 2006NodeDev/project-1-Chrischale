@@ -11,7 +11,8 @@ import SearchIcon from '@material-ui/icons/Search';
 
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect, Route } from 'react-router-dom';
+import { Button } from '@material-ui/core';
 
 
 
@@ -99,10 +100,11 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
     };
 
     //defult menu always has login
-    let menuItems = [<MenuItem onClick={handleClose}><Link to='/login'>Login</Link></MenuItem>]
+    let menuItems = []
     if(props.user){
         menuItems.push(<MenuItem onClick={handleClose}><Link to='/'>Home</Link></MenuItem>,
-        <MenuItem onClick={handleClose}> <Link to={`/profile/${props.user?.userId}`}>My Profile</Link></MenuItem>)
+        <MenuItem onClick={handleClose}> <Link to={`/profile/${props.user?.userId}`}>My Profile</Link></MenuItem>,
+        <MenuItem onClick={handleClose}><Link to='/contact'>Contact</Link></MenuItem>)
     }
 
     if(props.user && props.user.roleDetails.role === ('Finance Manager' || 'Admin')){
@@ -140,21 +142,15 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
             <Typography className={classes.title} variant="h6" noWrap>
               Find a Friend
             </Typography>
-            <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                <SearchIcon />
-                </div>
-                <InputBase
-                placeholder="Search..."
-                classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                }}
-                inputProps={{ 'aria-label': 'search' }}
-                />
-                
-            </div>
-             
+            <Route exact path = '/' render={(props) => (
+              <div>
+              <Button variant="contained" color="primary" onClick = {()=>{props.history.push('/login')}}>Login</Button>
+
+              <Button variant="contained" color="primary" onClick = {()=>{props.history.push('/users/newuser')}}>Sign Up</Button>
+              </div>  
+            )
+            }></Route>
+
             </Toolbar>
         </AppBar>
         </div>

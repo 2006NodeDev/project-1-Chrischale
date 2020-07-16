@@ -2,10 +2,12 @@ import React, { FunctionComponent, useEffect, useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import { User } from '../../Models/Users'
 import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button } from '@material-ui/core'
+import { EmailComponent } from '../EmailComponent/EmailComponent';
+import { Redirect } from 'react-router';
 
 
 interface IDisplayUserProps{
-    user: User
+    user: User | null
 }
 const useStyles = makeStyles({
     root: {
@@ -22,7 +24,12 @@ export const DisplayUsersComponent:FunctionComponent<IDisplayUserProps> = (props
     let classes = useStyles()
     //change into a card later if you have time ... 
     return(
-        <div className = {classes.root}>
+        <div className = {classes.root}
+        style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
         <Card>
         <CardActionArea>
             <CardMedia
@@ -32,7 +39,7 @@ export const DisplayUsersComponent:FunctionComponent<IDisplayUserProps> = (props
             />
             <CardContent>
             <Typography gutterBottom variant="h5" component="h2">
-                Name: {props.user.firstName} {props.user.lastName}
+                Name: {props.user?.firstName} {props.user?.lastName}
             </Typography>
             <Typography variant="body2" color="textSecondary" component="p">
                 Role: {props.user?.roleDetails.role}
@@ -41,10 +48,10 @@ export const DisplayUsersComponent:FunctionComponent<IDisplayUserProps> = (props
             </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button size="small" variant="contained" color="primary" >
+                <Button size="small" color="primary">
                     Contact
                 </Button>
-                <Button size="small" variant="contained" color="primary">
+                <Button size="small" color="primary">
                     View
                 </Button>
         </CardActions>
