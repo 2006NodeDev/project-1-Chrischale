@@ -1,20 +1,11 @@
 import { combineReducers } from "redux";
 import { User } from "../Models/Users";
 import { loginReducer } from "./login-reducer";
-import { profileReducer } from "./profile-reducer";
 
 //login interface
 export interface ILoginState{
-    user:User|null
-}
-
-
-//user interface
-
-
-//profile interface
-export interface IProfileState{
-    user:User|null
+    currUser:User|undefined,
+    errorMessage:string
 
 }
 
@@ -22,7 +13,7 @@ export interface IProfileState{
 //type def for state
 export interface IState{
     loginState:ILoginState
-    profileState:IProfileState
+   // userState:IUserState
 
 }
 
@@ -30,7 +21,7 @@ export interface IState{
 export const state = combineReducers <IState>({
     //takes in an object that is all of the reducers
     loginState:loginReducer,
-    profileState:profileReducer,
+   // userState:userReducer
 
 
 

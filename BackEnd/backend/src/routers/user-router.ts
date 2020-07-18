@@ -9,6 +9,37 @@ import { BadCredError } from '../errors/Bad CredentialsErr'
 
 export const uRouter = express.Router()
 
+
+//add new user
+uRouter.put('/newuser', async (req:Request, res:Response, next: NextFunction) => {
+    
+    let new_user: User = req.body
+    console.log(new_user)
+      
+    try{
+        if (!(new_user.username || new_user.password || new_user.firstName || new_user.lastName)){
+            throw new Error ('Please Fill All Fields')
+        }else{
+            let result = await newUser(new_user)
+            console.log(result)
+            res.json(result)    
+
+        }
+
+
+    }catch (err){
+        if(err.message === 'Please Fill All Fields'){
+            throw BadCredError
+        }
+
+        next(err)
+
+    }
+
+
+})
+
+
 uRouter.use(authenticationMiddleware)
 
 
@@ -82,32 +113,6 @@ uRouter.patch('/',authorizationMiddleware(['Finance Manager', 'Admin']), async (
 
 
 
-//add new user
-uRouter.put('/newuser', async (req:Request, res:Response, next: NextFunction) => {
-    
-        let new_user: User = req.body
-          
-        try{
-            if (!new_user.username || !new_user.password || !new_user.firstName || !new_user.lastName){
-                throw new Error ('Please Fill All Fields')
-            }else{
-                let result = await newUser(new_user)
-                res.json(result)    
-
-            }
-
-    
-        }catch (err){
-            if(err.message === 'Please Fill All Fields'){
-                throw BadCredError
-            }
-
-            next(err)
-    
-        }
-    
-    
-    })
 
     
 

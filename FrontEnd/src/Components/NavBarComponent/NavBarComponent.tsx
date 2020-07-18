@@ -3,16 +3,16 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
 import { fade, makeStyles, Theme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
-import SearchIcon from '@material-ui/icons/Search';
-
 
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
-import { Link, Redirect, Route } from 'react-router-dom';
+import { Link, Route } from 'react-router-dom';
 import { Button } from '@material-ui/core';
+import { TitleComponent } from '../TitleComponent/TitleComponent';
+import { IState } from '../../Reducers';
+import { useSelector } from 'react-redux';
 
 
 
@@ -91,6 +91,10 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
+    const currentUser = useSelector((state:IState) => {
+      return state.loginState.currUser
+    })
+
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -101,13 +105,14 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
 
     //defult menu always has login
     let menuItems = []
-    if(props.user){
+    if(currentUser){
         menuItems.push(<MenuItem onClick={handleClose}><Link to='/'>Home</Link></MenuItem>,
-        <MenuItem onClick={handleClose}> <Link to={`/profile/${props.user?.userId}`}>My Profile</Link></MenuItem>,
+        <MenuItem onClick={handleClose}> <Link to={`/profile/${currentUser.userId}`}>My Profile</Link></MenuItem>,
         <MenuItem onClick={handleClose}><Link to='/contact'>Contact</Link></MenuItem>)
     }
 
-    if(props.user && props.user.roleDetails.role === ('Finance Manager' || 'Admin')){
+
+    if(currentUser && currentUser.roleDetails.role === ('Finance Manager' || 'Admin')){
       menuItems.push(<MenuItem onClick={handleClose}> <Link to='/users'>All Users</Link></MenuItem>)
       
     }
@@ -140,7 +145,7 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
             </Menu>
 
             <Typography className={classes.title} variant="h6" noWrap>
-              Find a Friend
+              <TitleComponent size='medium' title={(props.user)? `Welcome ${props.user.firstName}` : 'FIND A FRIEND'} />
             </Typography>
             <Route exact path = '/' render={(props) => (
               <div>

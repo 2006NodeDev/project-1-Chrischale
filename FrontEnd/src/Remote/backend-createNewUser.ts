@@ -3,16 +3,15 @@ import { proj1Client } from "."
 
 
 
-export const backendNewUser = async (username:string, password:string, firstname:string, lastname:string,  email:string, address:string) => {
+export const backendNewUser = async (username:string, password:string, firstName:string, lastName:string,  email:string, address:string) => {
     
     let credentials = {
         username,
         password,
-        firstname,
-        lastname,
-        email,
-        address
-        
+        firstName,
+        lastName,
+        address,
+        email   
     }
     try{
         let response = await proj1Client.put('/users/newuser', credentials)

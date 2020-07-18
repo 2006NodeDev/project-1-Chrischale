@@ -16,6 +16,7 @@ export const backendLogin = async (username:string, password:string) => {
 
     }catch(err){
         console.log('login error ' + err)
+        throw (err)
 
     }
     

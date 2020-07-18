@@ -1,16 +1,12 @@
-import React, { FunctionComponent, useState, SyntheticEvent } from 'react';
+import React, { FunctionComponent, useState, SyntheticEvent, useEffect } from 'react';
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { Button } from '@material-ui/core';
-import { backendNewUser } from '../../Remote/backend-createNewUser';
-import { RouteComponentProps, Redirect } from 'react-router';
+import { useSelector, useDispatch } from 'react-redux';
+import { IState } from '../../Reducers';
+import { newuserActionMapper , newuserErrorReset } from '../../ActionMappers/newuser-action-mapper';
+import { toast } from 'react-toastify';
 
-
-
-interface INewUserProps extends RouteComponentProps{
-    changeNewUser:(newUser:any) => void
-  
-}
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -24,8 +20,12 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 
-export const NewUserComponent:FunctionComponent<INewUserProps> = (props) => {
+export const NewUserComponent:FunctionComponent<any> = ((props) => {
     const classes = useStyles();
+
+    const errorMessage = useSelector((state:IState) => {
+      return state.loginState.errorMessage
+    })
 
     const [username, changeUsername] = useState('')
     const [password, changePassword] = useState('')
@@ -34,40 +34,56 @@ export const NewUserComponent:FunctionComponent<INewUserProps> = (props) => {
     const [address, changeAddress] = useState('')
     const [email, changeEmail] = useState('')
 
+    const newUser = useSelector((state:IState) => {
+      return state.loginState.currUser
+    })
+
+    const dispatch = useDispatch()
+    
     const newUserSubmit = async (e:SyntheticEvent) => {
-        e.preventDefault()
-        let res = await backendNewUser(username, password, firstname, lastname, address, email)
-        console.log("new user submit response in compontn" + res)
+      e.preventDefault()
+        // e.preventDefault()
+        // let res = await backendNewUser(username, password, firstname, lastname, address, email)
+        // console.log("new user submit response in compontn" + res)
         
-        props.changeNewUser(res)
-        props.history.push(`/profile/${res.userId}`)       
+        // props.changeNewUser(res)
+        // props.history.push(`/profile/${res.userId}`) 
+        
+        let thunk = newuserActionMapper(username, password)
+        dispatch(thunk) 
     }
-    
+
+    useEffect(() => {
+      if(errorMessage){
+        toast.error(errorMessage)
+        dispatch(newuserErrorReset())
+      }
+    })
+
     const updateUsername = (event:any) => {
-        event.preventDefault()
-        changeUsername(event.currentTarget.value)
-    }
-    const updatePassword = (event : any) => {
-        event.preventDefault()
-        changePassword(event.currentTarget.value)
-    }
-    const updateFirstName = (event:any) => {
-        event.preventDefault()
-        changeFirstName(event.currentTarget.value)
-    }
-    const updateLastName = (event:any) => {
-        event.preventDefault()
-        changeLastName(event.currentTarget.value)
-    }
-    const updateEmail = (event:any) => {
-        event.preventDefault()
-        changeEmail(event.currentTarget.value)
-    }
-    const updateAddress = (event:any) => {
-        event.preventDefault()
-        changeAddress(event.currentTarget.value)
-    }
-    
+      event.preventDefault()
+      changeUsername(event.currentTarget.value)
+  }
+  const updatePassword = (event : any) => {
+      event.preventDefault()
+      changePassword(event.currentTarget.value)
+  }
+  const updateFirstName = (event:any) => {
+      event.preventDefault()
+      changeFirstName(event.currentTarget.value)
+  }
+  const updateLastName = (event:any) => {
+      event.preventDefault()
+      changeLastName(event.currentTarget.value)
+  }
+  const updateEmail = (event:any) => {
+      event.preventDefault()
+      changeEmail(event.currentTarget.value)
+  }
+  const updateAddress = (event:any) => {
+      event.preventDefault()
+      changeAddress(event.currentTarget.value)
+  }
 
   return (
     <form className={classes.root} noValidate autoComplete="off" onSubmit={newUserSubmit}>
@@ -109,16 +125,6 @@ export const NewUserComponent:FunctionComponent<INewUserProps> = (props) => {
         />
         <br />
         <TextField
-          id="standard-password-input"
-          label="Email"
-          type="email"
-          autoComplete="off"
-          value ={email} 
-          onChange = {updateEmail}
-
-        />
-        <br />
-        <TextField
           id="standard-multiline-static"
           label="Address"
           autoComplete="off"
@@ -128,12 +134,23 @@ export const NewUserComponent:FunctionComponent<INewUserProps> = (props) => {
           onChange = {updateAddress}
 
         />
+        <br/>
+        <TextField
+          id="standard-password-input"
+          label="Email"
+          type="email"
+          autoComplete="off"
+          value ={email} 
+          onChange = {updateEmail}
+
+        />
         <hr />
 
         <Button type = 'submit' variant = 'contained' color = 'primary' onClick={newUserSubmit}> Submit </Button>
 
-
       </div>
     </form>
   )
-}
+
+
+})

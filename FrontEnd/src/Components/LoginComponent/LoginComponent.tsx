@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, SyntheticEvent } from 'react'
+import React, { FunctionComponent, useState, SyntheticEvent, useEffect } from 'react'
 import { TextField, makeStyles, createStyles, Theme, Button, FormGroup, FormControlLabel, Checkbox, CheckboxProps, withStyles } from '@material-ui/core'
 import { Route, Router, Redirect, RouteComponentProps } from 'react-router';
 import { ProfileComponent } from '../ProfileComponent/ProfileComponent';
@@ -6,8 +6,10 @@ import {backendLogin} from '../../Remote/backend-login'
 import { User } from '../../Models/Users';
 import { useSelector, useDispatch } from 'react-redux';
 import { ILoginState, IState } from '../../Reducers';
-import { updateLoginUser } from '../../ActionMappers/login-action-mapper';
+import { loginActionMapper, loginErrorReset } from '../../ActionMappers/login-action-mapper';
 import { green } from '@material-ui/core/colors';
+import thunk from 'redux-thunk';
+import { toast } from 'react-toastify'
 
 
 
@@ -23,17 +25,25 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-interface ILoginProps extends RouteComponentProps{
-  changeCurrUser:(newUser:any) => void
 
-}
+export const LoginComponent: FunctionComponent <any> = (props) => {
 
-export const LoginComponent: FunctionComponent <ILoginProps> = (props) => {
-
+  //login state
+    const login = useSelector((state:IState) => {
+      return state.loginState.currUser
+    })
+    
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setState({ ...state, [event.target.name]: event.target.checked });
+    };
     const classes = useStyles();
+    
 
     const [username, changeUsername] = useState('')
     const [password, changePassword] = useState('')
+    const errorMessage = useSelector((state:IState) => {
+      return state.loginState.errorMessage
+    })
 
     const [state, setState] = React.useState({
       checkedA: true,
@@ -50,26 +60,29 @@ export const LoginComponent: FunctionComponent <ILoginProps> = (props) => {
     }
 
 
-    //const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
     const loginSubmit = async (e:SyntheticEvent) => {
         e.preventDefault()
-        let res = await backendLogin(username, password)
-        console.log(res)
+        // let res = await backendLogin(username, password)
+        // console.log(res)
         
-        props.changeCurrUser(res)
-        changePassword('')
+        // props.changeCurrUser(res)
+        // changePassword('')
 
-        props.history.push(`/profile/${res.userId}`)       
+        //props.history.push(`/profile/${res.userId}`)   
+        let thunk = loginActionMapper(username, password)
+        dispatch(thunk)  
+         
+          
     }
 
-    const login = useSelector((state:IState) => {
-      return state.loginState.user
-    })
-    
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setState({ ...state, [event.target.name]: event.target.checked });
-    };
+    useEffect(()=>{
+      if(errorMessage){
+          toast.error(errorMessage)
+          dispatch(loginErrorReset())
+      }
+  })
 
     return (
         <div>

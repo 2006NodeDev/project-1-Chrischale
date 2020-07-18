@@ -15,23 +15,22 @@ export async function getUserByUsernamePassword(username: string, password:strin
     let client: PoolClient
 
     try{
+        console.log("hi")
         client = await connectionPool.connect() //gives you a promise, so you take it out of the stack to prevent blocking
+        console.log("ho")
         let result:QueryResult = await client.query(`select * from ers."users" u left join ers."roles" r2 on u."role_id" = r2."role_id" where u."username" = $1 and u."password" = $2;`, [username, password])
+        console.log("you")
         if (result.rowCount === 0){
             throw new Error ('User Not Found')
         } else {
             return userDTOtoUser(result.rows[0])
 
         }
-
     }catch (err){
         if(err.message === 'User Not Found'){
             throw new AuthError
         }
         throw new Error('cant login error')
-        
-
-
     } finally {
         client && client.release()
     }
@@ -145,13 +144,15 @@ export async function newUser (new_user: User) : Promise <User> {
         let n = await client.query(`select * from ers."users" u where u."username" = $1;`, [new_user.username])
         
         let existingUser = (n.rows[0])
+        console.log("existing" + existingUser)
 
         if(existingUser){
             throw Error ("Username Already Taken")
         }
        
-        let result = await client.query(`insert into ers."users" ("username", "password", "first_name", "last_name", "address", "email")
-        values ($1, $2, $3, $4, $5, $6) returning *;`, [new_user.username, new_user.password, new_user.firstName, new_user.lastName, new_user.address, new_user.email])
+        let result = await client.query(`insert into ers."users" ("username", "password", "first_name", "last_name", "address", "email", "role_id", "role")
+        values ($1, $2, $3, $4, $5, $6, $7, $8) returning *;`, [new_user.username, new_user.password, new_user.firstName, new_user.lastName, new_user.address, new_user.email, '2', 'User'])
+        console.log(result.rows[0])
         return result.rows[0]
              
     }catch (err){

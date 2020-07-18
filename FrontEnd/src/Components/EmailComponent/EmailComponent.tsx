@@ -3,6 +3,8 @@ import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import { Button } from '@material-ui/core';
 import { User } from '../../Models/Users';
+import { useSelector } from 'react-redux';
+import { IState } from '../../Reducers';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -18,19 +20,21 @@ const useStyles = makeStyles((theme: Theme) =>
 //for the send button
 const emailSubmit = (e:SyntheticEvent) => {
     e.preventDefault()
-    //FINISH THIS TOMORROW
+    //FINISH THIS?
 
 }
 
-interface IEmailProps {
-  user:User|null
-}
 
 
 
-export const EmailComponent: FunctionComponent <IEmailProps> = (props) => {
+
+export const EmailComponent: FunctionComponent <any> = (props) => {
     const classes = useStyles();
     const [value, setValue] = React.useState('Controlled');
+
+    const sender = useSelector((state:IState) => {
+      return state.loginState.currUser
+    })
   
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setValue(event.target.value);
@@ -42,7 +46,7 @@ export const EmailComponent: FunctionComponent <IEmailProps> = (props) => {
         <TextField
           id="standard-read-only-input"
           label="From"
-          defaultValue={props.user?.email}
+          defaultValue={sender?.email}
           InputProps={{
             readOnly: true,
           }}

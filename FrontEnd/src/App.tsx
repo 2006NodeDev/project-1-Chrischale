@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { NavBarComponent } from './Components/NavBarComponent/NavBarComponent';
 import { Button } from '@material-ui/core/'
 import { LoginComponent } from './Components/LoginComponent/LoginComponent';
@@ -10,6 +12,7 @@ import { ProfileComponent } from './Components/ProfileComponent/ProfileComponent
 import {SearchUsersComponent} from './Components/SearchUsersComponent/SearchUsersComponent'
 import { Provider } from 'react-redux';
 import { store } from './store';
+import { ToastContainer } from 'react-toastify';
 import { DisplayUsersComponent } from './Components/DisplayUsersComponent/DisplayUsersComponent';
 import { EmailComponent } from './Components/EmailComponent/EmailComponent';
 import { NewUserComponent } from './Components/NewUserComponent/NewUserComponent';
@@ -18,13 +21,12 @@ import { NewUserComponent } from './Components/NewUserComponent/NewUserComponent
 
 
 function App() {
-  const [currUser, changeCurrUser] = useState<null|User> (null)
-
+  
   return (
     <div className="App">
       <Provider store={store}>
       <Router>
-      <NavBarComponent user = {currUser}/>
+      <NavBarComponent />
         <Route exact path = '/' render = {(props) => (
           <header className="App-header">
             
@@ -40,14 +42,15 @@ function App() {
             
           </header>
         )}></Route>
-        <Route path='/login' render={(props)=>(<LoginComponent changeCurrUser={changeCurrUser} {...props}/>)}></Route>
+        <Route path='/login' render={(props)=>(<LoginComponent {...props}/>)}></Route>
         <Route exact path='/profile/:userId' component={ProfileComponent}></Route>
         <Route exact path='/users' component={SearchUsersComponent}/>
-        <Route path = '/contact' render={() => (<EmailComponent user={currUser} />)} />
-        <Route path = '/users/newuser' render={(props)=>(<NewUserComponent changeNewUser={changeCurrUser} {...props}/>)} />
+        <Route path = '/contact' render={() => (<EmailComponent />)} />
+        <Route path = '/users/newuser' render={(props)=>(<NewUserComponent {...props}/>)} />
       </Router>
+      <ToastContainer position='bottom-right'/>
       </Provider>
-      </div>
+    </div>
   );
 }
 

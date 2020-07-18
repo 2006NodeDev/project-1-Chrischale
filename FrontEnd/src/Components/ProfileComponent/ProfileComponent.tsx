@@ -8,7 +8,6 @@ import { useParams } from 'react-router'
 import { getUserProfile } from '../../Remote/backend-getUserProfile'
 import { useSelector, useDispatch } from 'react-redux'
 import { IState } from '../../Reducers'
-import { updateProfileUser }  from '../../ActionMappers/profile-action-mapper'
 import { Grid, Paper, makeStyles, createStyles, Theme } from '@material-ui/core'
 import { DisplayUsersComponent } from '../DisplayUsersComponent/DisplayUsersComponent'
 
@@ -32,16 +31,6 @@ export const ProfileComponent:FunctionComponent<any> = (props) => {
     })
 
 
-    const profile = useSelector((state:IState) => {
-        return state.profileState.user
-    })
-
-    const dispatch = useDispatch()
-
-    const changeProfile = () => {
-        let action = updateProfileUser(userProfile)
-        dispatch(action)
-    }
 
     const useStyles = makeStyles((theme: Theme) =>
         createStyles({
