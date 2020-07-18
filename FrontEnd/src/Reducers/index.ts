@@ -4,7 +4,7 @@ import { loginReducer } from "./login-reducer";
 
 //login interface
 export interface ILoginState{
-    currUser:User|undefined,
+    currUser:User,
     errorMessage:string
 
 }
@@ -20,7 +20,7 @@ export interface IState{
 //the whole state of the store
 export const state = combineReducers <IState>({
     //takes in an object that is all of the reducers
-    loginState:loginReducer,
+    loginState:loginReducer
    // userState:userReducer
 
 

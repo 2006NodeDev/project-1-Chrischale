@@ -16,6 +16,7 @@ export const loginActionMapper = (username:string, password:string) => async (di
     try{
         let currUser = await backendLogin(username, password)
         console.log(currUser)
+        
         dispatch({
             type:loginTypes.LOGIN_SUCCESSFUL,
             payload:{

@@ -28,11 +28,10 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const LoginComponent: FunctionComponent <any> = (props) => {
 
-  //login state
-    const login = useSelector((state:IState) => {
+    const login_state = useSelector((state:IState) => {
       return state.loginState.currUser
     })
-    
+
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
       setState({ ...state, [event.target.name]: event.target.checked });
     };
@@ -41,6 +40,7 @@ export const LoginComponent: FunctionComponent <any> = (props) => {
 
     const [username, changeUsername] = useState('')
     const [password, changePassword] = useState('')
+
     const errorMessage = useSelector((state:IState) => {
       return state.loginState.errorMessage
     })
@@ -62,6 +62,8 @@ export const LoginComponent: FunctionComponent <any> = (props) => {
 
     const dispatch = useDispatch()
 
+    
+
     const loginSubmit = async (e:SyntheticEvent) => {
         e.preventDefault()
         // let res = await backendLogin(username, password)
@@ -70,9 +72,11 @@ export const LoginComponent: FunctionComponent <any> = (props) => {
         // props.changeCurrUser(res)
         // changePassword('')
 
-        //props.history.push(`/profile/${res.userId}`)   
+        
+
         let thunk = loginActionMapper(username, password)
-        dispatch(thunk)  
+        dispatch(thunk)
+        props.history.push(`/profile/${login_state.userId}`)
          
           
     }
@@ -83,6 +87,8 @@ export const LoginComponent: FunctionComponent <any> = (props) => {
           dispatch(loginErrorReset())
       }
   })
+
+  
 
     return (
         <div>

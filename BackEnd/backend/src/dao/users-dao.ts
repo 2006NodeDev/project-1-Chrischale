@@ -15,11 +15,8 @@ export async function getUserByUsernamePassword(username: string, password:strin
     let client: PoolClient
 
     try{
-        console.log("hi")
         client = await connectionPool.connect() //gives you a promise, so you take it out of the stack to prevent blocking
-        console.log("ho")
         let result:QueryResult = await client.query(`select * from ers."users" u left join ers."roles" r2 on u."role_id" = r2."role_id" where u."username" = $1 and u."password" = $2;`, [username, password])
-        console.log("you")
         if (result.rowCount === 0){
             throw new Error ('User Not Found')
         } else {
