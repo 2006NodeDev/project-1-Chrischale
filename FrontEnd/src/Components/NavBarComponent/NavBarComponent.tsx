@@ -91,7 +91,7 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
     const classes = useStyles();
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-    const currentUser = useSelector((state:IState) => {
+    const currUser = useSelector((state:IState) => {
       return state.loginState.currUser
     })
 
@@ -105,14 +105,14 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
 
     //defult menu always has login
     let menuItems = []
-    if(currentUser){
+    if(currUser){
         menuItems.push(<MenuItem onClick={handleClose}><Link to='/'>Home</Link></MenuItem>,
-        <MenuItem onClick={handleClose}> <Link to={`/profile/${currentUser.userId}`}>My Profile</Link></MenuItem>,
+        <MenuItem onClick={handleClose}> <Link to={`/profile/${currUser.userId}`}>My Profile</Link></MenuItem>,
         <MenuItem onClick={handleClose}><Link to='/contact'>Contact</Link></MenuItem>)
     }
 
 
-    if(currentUser && currentUser.roleDetails.role === ('Finance Manager' || 'Admin')){
+    if(currUser && currUser.roleDetails.role === ('Finance Manager' || 'Admin')){
       menuItems.push(<MenuItem onClick={handleClose}> <Link to='/users'>All Users</Link></MenuItem>)
       
     }

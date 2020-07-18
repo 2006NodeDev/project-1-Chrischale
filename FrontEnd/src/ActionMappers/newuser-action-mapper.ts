@@ -1,5 +1,5 @@
 import { User } from "../Models/Users";
-import { backendLogin } from "../Remote/backend-login";
+import { backendNewUser } from "../Remote/backend-createNewUser";
 
 
 export const newuserTypes = {
@@ -11,9 +11,9 @@ export const newuserTypes = {
 
 }
 
-export const newuserActionMapper = (username:string, password:string) => async (dispatch:any) => {
+export const newuserActionMapper = (username:string, password:string, firstName:string, lastName:string, address:string, email:string)=> async (dispatch:any) => {
     try{
-        let currUser = await backendLogin(username, password)
+        let currUser = await backendNewUser(username, password, firstName, lastName, address, email)
         console.log(currUser)
         dispatch({
             type:newuserTypes.LOGIN_SUCCESSFUL,

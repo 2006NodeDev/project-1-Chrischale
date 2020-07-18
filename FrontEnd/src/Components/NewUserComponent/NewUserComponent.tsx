@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme: Theme) =>
 export const NewUserComponent:FunctionComponent<any> = ((props) => {
     const classes = useStyles();
 
+    const newUser = useSelector((state:IState) => {
+      return state.loginState.currUser
+    })
+
     const errorMessage = useSelector((state:IState) => {
       return state.loginState.errorMessage
     })
@@ -33,40 +37,6 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
     const [lastname, changeLastName] = useState('')
     const [address, changeAddress] = useState('')
     const [email, changeEmail] = useState('')
-
-    const newUser = useSelector((state:IState) => {
-      return state.loginState.currUser
-    })
-
-    const dispatch = useDispatch()
-    
-    const newUserSubmit = async (e:SyntheticEvent) => {
-      e.preventDefault()
-        // e.preventDefault()
-        // let res = await backendNewUser(username, password, firstname, lastname, address, email)
-        // console.log("new user submit response in compontn" + res)
-        
-        // props.changeNewUser(res)
-        // props.history.push(`/profile/${res.userId}`) 
-        
-        let thunk = newuserActionMapper(username, password)
-        dispatch(thunk) 
-    }
-
-    useEffect(() => {
-      if(errorMessage){
-        toast.error(errorMessage)
-        dispatch(newuserErrorReset())
-      }
-    })
-
-    useEffect(()=>{
-      if(newUser){
-  
-        props.history.push(`/profile/${newUser.userId}`)
-  
-      }
-    })
 
     const updateUsername = (event:any) => {
       event.preventDefault()
@@ -93,8 +63,40 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
       changeAddress(event.currentTarget.value)
   }
 
+    const dispatch = useDispatch()
+    
+    const newUserSubmit = async (e:SyntheticEvent) => {
+      e.preventDefault()
+        // e.preventDefault()
+        // let res = await backendNewUser(username, password, firstname, lastname, address, email)
+        // console.log("new user submit response in compontn" + res)
+        
+        // props.changeNewUser(res)
+        // props.history.push(`/profile/${res.userId}`) 
+        
+        let thunk = newuserActionMapper(username, password, firstname, lastname, address, email)
+        dispatch(thunk) 
+    }
+
+    useEffect(() => {
+      if(errorMessage){
+        toast.error(errorMessage)
+        dispatch(newuserErrorReset())
+      }
+    })
+
+    useEffect(()=>{
+      if(newUser){
+  
+        props.history.push(`/profile/${newUser.userId}`)
+  
+      }
+    })
+
+    
+
   return (
-    <form className={classes.root} noValidate autoComplete="off" onSubmit={newUserSubmit}>
+    <form className={classes.root} autoComplete="off" onSubmit={newUserSubmit}>
       <div>
       <TextField
           id="standard-password-input"

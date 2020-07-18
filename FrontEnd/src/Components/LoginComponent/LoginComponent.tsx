@@ -28,22 +28,24 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const LoginComponent: FunctionComponent <any> = (props) => {
 
+    const classes = useStyles();
+
     const user = useSelector((state:IState) => {
       return state.loginState.currUser
     })
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-      setState({ ...state, [event.target.name]: event.target.checked });
-    };
-    const classes = useStyles();
-    
-
-    const [username, changeUsername] = useState('')
-    const [password, changePassword] = useState('')
+   
 
     const errorMessage = useSelector((state:IState) => {
       return state.loginState.errorMessage
     })
+
+    
+    const [username, changeUsername] = useState('')
+    const [password, changePassword] = useState('')
+
+    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+      setState({ ...state, [event.target.name]: event.target.checked });
+    };
 
     const [state, setState] = React.useState({
       checkedA: true,
