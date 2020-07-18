@@ -8,8 +8,25 @@ import { useParams } from 'react-router'
 import { getUserProfile } from '../../Remote/backend-getUserProfile'
 import { useSelector, useDispatch } from 'react-redux'
 import { IState } from '../../Reducers'
-import { Grid, Paper, makeStyles, createStyles, Theme } from '@material-ui/core'
+import { Grid, Paper, makeStyles, createStyles, Theme, CardActionArea, Card, CardContent, Typography, Hidden, CardMedia } from '@material-ui/core'
 import { DisplayUsersComponent } from '../DisplayUsersComponent/DisplayUsersComponent'
+import { EmailComponent } from '../EmailComponent/EmailComponent'
+import { Link } from 'react-router-dom'
+
+
+
+
+const useStyles = makeStyles({
+    card: {
+      display: 'flex',
+    },
+    cardDetails: {
+      flex: 1,
+    },
+    cardMedia: {
+      width: 160,
+    },
+  });
 
 
 export const ProfileComponent:FunctionComponent<any> = (props) => {
@@ -30,29 +47,38 @@ export const ProfileComponent:FunctionComponent<any> = (props) => {
 
     })
 
-
-
-    const useStyles = makeStyles((theme: Theme) =>
-        createStyles({
-            root: {
-            flexGrow: 1,
-            },
-            paper: {
-            padding: theme.spacing(2),
-            textAlign: 'center',
-            color: theme.palette.text.secondary,
-            },
-        }),
-    );
-
+    
     const classes = useStyles();
     console.log(userProfile)
+ 
     return(
         
         (userProfile)?
         <div>
-            Welcome {userProfile.firstName} {userProfile.lastName}
-            <DisplayUsersComponent user={userProfile}/>
+           <Grid item xs={12} md={6}>
+            <CardActionArea component="a" href="#">
+            <Card className={classes.card}>
+            <div className={classes.cardDetails}>
+                <CardContent>
+                <Typography component="h2" variant="h5">
+                    NAME: {userProfile.firstName} {userProfile.lastName}
+                </Typography>
+                <Typography variant="subtitle1" color="textSecondary">
+                    ROLE: {userProfile.roleDetails.role}
+                </Typography>
+                <Typography variant="subtitle1" paragraph>
+                    ADDRESS: {userProfile.address}
+                </Typography>
+                <Link to = '/contact'>
+                    EMAIL: {userProfile.email}
+                </Link>
+                </CardContent>
+            </div>
+            
+            </Card>
+            </CardActionArea>
+            </Grid>
+            
 
         </div>
         

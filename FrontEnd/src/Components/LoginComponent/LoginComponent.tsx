@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const LoginComponent: FunctionComponent <any> = (props) => {
 
-    const login_state = useSelector((state:IState) => {
+    const user = useSelector((state:IState) => {
       return state.loginState.currUser
     })
 
@@ -76,16 +76,26 @@ export const LoginComponent: FunctionComponent <any> = (props) => {
 
         let thunk = loginActionMapper(username, password)
         dispatch(thunk)
-        props.history.push(`/profile/${login_state.userId}`)
+        
+        
          
           
     }
 
     useEffect(()=>{
+
       if(errorMessage){
           toast.error(errorMessage)
           dispatch(loginErrorReset())
       }
+    })
+
+  useEffect(()=>{
+    if(user){
+
+      props.history.push(`/profile/${user.userId}`)
+
+    }
   })
 
   

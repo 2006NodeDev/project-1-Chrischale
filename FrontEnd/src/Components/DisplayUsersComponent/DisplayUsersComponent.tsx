@@ -4,6 +4,7 @@ import { User } from '../../Models/Users'
 import { Card, CardActionArea, CardMedia, CardContent, Typography, CardActions, Button } from '@material-ui/core'
 import { EmailComponent } from '../EmailComponent/EmailComponent';
 import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 
 
 interface IDisplayUserProps{
@@ -30,6 +31,7 @@ export const DisplayUsersComponent:FunctionComponent<IDisplayUserProps> = (props
             justifyContent: "center",
             alignItems: "center"
           }}>
+              
         <Card>
         <CardActionArea>
             <CardMedia
@@ -48,12 +50,19 @@ export const DisplayUsersComponent:FunctionComponent<IDisplayUserProps> = (props
             </CardContent>
             </CardActionArea>
             <CardActions>
-                <Button size="small" color="primary">
+                <Button variant="outlined" color="primary">
+                <Link to='/contact'>
                     Contact
+                </Link>
                 </Button>
-                <Button size="small" color="primary">
+                <Button variant="outlined" color="primary">
+                <Link to={`/profile/${props.user.userId}`}>
                     View
+                </Link>
+
                 </Button>
+                
+                
         </CardActions>
         </Card> 
         <br/>          

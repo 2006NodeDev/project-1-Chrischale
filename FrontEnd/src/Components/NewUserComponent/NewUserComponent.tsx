@@ -60,6 +60,14 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
       }
     })
 
+    useEffect(()=>{
+      if(newUser){
+  
+        props.history.push(`/profile/${newUser.userId}`)
+  
+      }
+    })
+
     const updateUsername = (event:any) => {
       event.preventDefault()
       changeUsername(event.currentTarget.value)

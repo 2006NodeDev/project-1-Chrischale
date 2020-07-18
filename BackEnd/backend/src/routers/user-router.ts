@@ -40,11 +40,8 @@ uRouter.put('/newuser', async (req:Request, res:Response, next: NextFunction) =>
 })
 
 
-uRouter.use(authenticationMiddleware)
-
-
 //Find Users
-uRouter.get('/', authorizationMiddleware(['Finance Manager']), async (req:Request, res:Response, next:NextFunction) => {
+uRouter.get('/', authenticationMiddleware, authorizationMiddleware(['Finance Manager']), async (req:Request, res:Response, next:NextFunction) => {
 
     try{
 
@@ -60,7 +57,7 @@ uRouter.get('/', authorizationMiddleware(['Finance Manager']), async (req:Reques
 
 
 //Find User by id
-uRouter.get('/:id', authorizationMiddleware(['Finance Manager']), async (req:Request, res:Response, next:NextFunction)=>{
+uRouter.get('/:id', authenticationMiddleware, authorizationMiddleware(['Finance Manager']), async (req:Request, res:Response, next:NextFunction)=>{
     let req_id = req.params.id
     //console.log(req_id)
     if (isNaN(+req_id)){
@@ -83,7 +80,7 @@ uRouter.get('/:id', authorizationMiddleware(['Finance Manager']), async (req:Req
 
 
 //Update User
-uRouter.patch('/',authorizationMiddleware(['Finance Manager', 'Admin']), async (req:Request, res:Response, next: NextFunction) => {
+uRouter.patch('/', authenticationMiddleware, authorizationMiddleware(['Finance Manager', 'Admin']), async (req:Request, res:Response, next: NextFunction) => {
     //The reimbursementId must be present as well as all fields to update, 
     //any field left undefined will not be updated. This can be used to approve and deny.
     
