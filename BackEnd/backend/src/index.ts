@@ -23,7 +23,9 @@ app.use(sessionMiddleware)
 
 app.use('/users', uRouter)
 
-
+app.get('/health', (req:Request, res:Response) => {
+    res.sendStatus(200)
+})
 
 //Login Endpoint
 app.post('/login', async (req:Request, res:Response, next:NextFunction) => {
