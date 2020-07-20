@@ -30,13 +30,11 @@ app.post('/login', async (req:Request, res:Response, next:NextFunction) => {
     //assign request's username and password to variables to compare
     let uname = req.body.username
     let pwd = req.body.password
-    console.log("login request sent from: " + uname)
 
     if(!(uname || pwd)){
         throw new BadCredError()
     } else {
         try{
-            console.log("hellooooooooo we are in the try block")
             let result_user = await getUserByUsernamePassword(uname,pwd)
             req.session.user = result_user
             res.json(result_user)
