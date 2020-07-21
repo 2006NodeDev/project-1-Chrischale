@@ -7,6 +7,11 @@ import { IState } from '../../Reducers';
 import { toast } from 'react-toastify';
 import { updateUserActionMapper, updateUserErrorReset } from '../../ActionMappers/update-user-action-mapper';
 import { TitleComponent } from '../TitleComponent/TitleComponent'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -23,6 +28,16 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
     const classes = useStyles();
+    const [open, setOpen] = React.useState(false);
+
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+  
 
     const user = useSelector((state:IState) => {
       return state.loginState.currUser
@@ -82,6 +97,7 @@ export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
         
         let thunk = updateUserActionMapper(username, password, firstname, lastname, address, email, role)
         dispatch(thunk) 
+        
     }
 
     useEffect(() => {
@@ -92,11 +108,7 @@ export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
     })
 
     useEffect(()=>{
-      if(user){
-  
         props.history.push(`/profile/${user.userId}`)
-  
-      }
     })
 
     
@@ -174,7 +186,29 @@ export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
         />
         <hr />
 
-        <Button type = 'submit' variant = 'contained' color = 'primary' onClick={updatedUserSubmit}> Submit </Button>
+        <Button type = 'submit' variant = 'contained' color = 'secondary' onClick={handleClickOpen}> Update </Button>
+        <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Are You Sure?"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Please review all changes before submitting.
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          
+          <Button onClick={updatedUserSubmit} color="secondary">
+            Update
+          </Button>
+          <Button onClick={handleClose} color="secondary" autoFocus>
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       </div>
     </form>

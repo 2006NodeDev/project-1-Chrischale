@@ -15,7 +15,7 @@ export const backendUpdateUser = async (username:string, password:string, firstN
         role   
     }
     try{
-        let response = await proj1Client.patch('/users/updateuser', credentials)
+        let response = await proj1Client.patch(`/users`, credentials)
         //console.log("backend response" + response)
         return response.data
 

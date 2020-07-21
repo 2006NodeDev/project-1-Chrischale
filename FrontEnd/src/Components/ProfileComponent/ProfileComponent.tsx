@@ -56,7 +56,7 @@ export const ProfileComponent:FunctionComponent<any> = (props) => {
         
         (userProfile)?
         <div>
-            <Link to='users/updateuser'>
+            <Link to='/profile/users/updateuser'>
             <Button>Update Profile</Button>
             </Link>
 

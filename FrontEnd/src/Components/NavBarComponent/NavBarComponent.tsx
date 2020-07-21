@@ -149,9 +149,9 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
             </Typography>
             <Route exact path = '/' render={(props) => (
               <div>
-              <Button variant="contained" color="primary" onClick = {()=>{props.history.push('/login')}}>Login</Button>
+              <Button variant="contained" color="secondary" onClick = {()=>{props.history.push('/login')}}>Login</Button>
 
-              <Button variant="contained" color="primary" onClick = {()=>{props.history.push('/users/newuser')}}>Sign Up</Button>
+              <Button variant="contained" color="secondary" onClick = {()=>{props.history.push('/users/newuser')}}>Sign Up</Button>
               </div>  
             )
             }></Route>

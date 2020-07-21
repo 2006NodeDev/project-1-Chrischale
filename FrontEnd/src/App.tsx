@@ -49,7 +49,7 @@ function App() {
         <Route exact path='/users' component={SearchUsersComponent}/>
         <Route path = '/contact' render={() => (<EmailComponent />)} />
         <Route path = '/users/newuser' render={(props)=>(<NewUserComponent {...props}/>)} />
-        <Route path = '/users/updateuser' render={(props)=>(<UpdateUserComponent {...props}/>)} />
+        <Route path = '/profile/users/updateuser' render={(props)=>(<UpdateUserComponent {...props}/>)} />
       </Router>
       <ToastContainer position='bottom-right'/>
       </Provider>

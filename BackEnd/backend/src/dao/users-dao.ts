@@ -116,6 +116,7 @@ export async function updateUser(upd_Reimb : User) : Promise <User>{
             newReimb.roleDetails.roleID = 3
         }else{
             newReimb.roleDetails.roleID = 2
+
         }
         
         let result = await client.query(`update ers."users" u set "first_name" = $1, "last_name" = $2, "address" = $3 "email" = $4, "role_id" = $5, "role" = $6, where u."user_id" =  $7 returning *;`, 
