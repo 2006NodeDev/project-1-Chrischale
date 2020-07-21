@@ -1,5 +1,6 @@
 //display a user's profile in detail
 
+import 'react-toastify/dist/ReactToastify.css';
 
 import React, { FunctionComponent, useState, useEffect } from 'react'
 import { SearchUsersComponent } from '../SearchUsersComponent/SearchUsersComponent'
@@ -8,7 +9,7 @@ import { useParams } from 'react-router'
 import { getUserProfile } from '../../Remote/backend-getUserProfile'
 import { useSelector, useDispatch } from 'react-redux'
 import { IState } from '../../Reducers'
-import { Grid, Paper, makeStyles, createStyles, Theme, CardActionArea, Card, CardContent, Typography, Hidden, CardMedia } from '@material-ui/core'
+import { Grid, Paper, makeStyles, createStyles, Theme, CardActionArea, Card, CardContent, Typography, Hidden, CardMedia, Button } from '@material-ui/core'
 import { DisplayUsersComponent } from '../DisplayUsersComponent/DisplayUsersComponent'
 import { EmailComponent } from '../EmailComponent/EmailComponent'
 import { Link } from 'react-router-dom'
@@ -55,6 +56,10 @@ export const ProfileComponent:FunctionComponent<any> = (props) => {
         
         (userProfile)?
         <div>
+            <Link to='users/updateuser'>
+            <Button>Update Profile</Button>
+            </Link>
+
            <Grid item xs={12} md={6}>
             <CardActionArea component="a" href="#">
             <Card className={classes.card}>

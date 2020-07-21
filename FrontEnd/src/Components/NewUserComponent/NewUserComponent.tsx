@@ -6,6 +6,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { IState } from '../../Reducers';
 import { newuserActionMapper , newuserErrorReset } from '../../ActionMappers/newuser-action-mapper';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 const useStyles = makeStyles((theme: Theme) =>

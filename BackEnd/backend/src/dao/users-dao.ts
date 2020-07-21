@@ -109,9 +109,17 @@ export async function updateUser(upd_Reimb : User) : Promise <User>{
             let q =  upd_Reimb[f]
             newReimb[f] = q           
         }
+
+        if(newReimb.roleDetails.role === 'Admin'){
+            newReimb.roleDetails.roleID = 1
+        } else if (newReimb.roleDetails.role === 'Finance Manager'){
+            newReimb.roleDetails.roleID = 3
+        }else{
+            newReimb.roleDetails.roleID = 2
+        }
         
-        let result = await client.query(`update ers."users" u set "first_name" = $1, "last_name" = $2, "email" = $3, "role_id" = $4, "role" = $5, "address" = $6 where u."user_id" =  $7 returning *;`, 
-                                                        [newReimb.firstName, newReimb.lastName, newReimb.email, newReimb.roleDetails.roleID, newReimb.roleDetails.role, newReimb.address, upd_Reimb.userId])
+        let result = await client.query(`update ers."users" u set "first_name" = $1, "last_name" = $2, "address" = $3 "email" = $4, "role_id" = $5, "role" = $6, where u."user_id" =  $7 returning *;`, 
+                                                        [newReimb.firstName, newReimb.lastName, newReimb.address, newReimb.email, newReimb.roleDetails.roleID, newReimb.roleDetails.role, newReimb.address, upd_Reimb.userId])
         return result.rows[0]
              
     }catch (err){

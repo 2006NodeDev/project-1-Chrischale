@@ -80,7 +80,7 @@ uRouter.get('/:id', authenticationMiddleware, authorizationMiddleware(['Finance 
 
 
 //Update User
-uRouter.patch('/', authenticationMiddleware, authorizationMiddleware(['Finance Manager', 'Admin']), async (req:Request, res:Response, next: NextFunction) => {
+uRouter.patch('/updateuser', authenticationMiddleware, async (req:Request, res:Response, next: NextFunction) => {
     //The reimbursementId must be present as well as all fields to update, 
     //any field left undefined will not be updated. This can be used to approve and deny.
     

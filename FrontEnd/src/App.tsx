@@ -16,6 +16,8 @@ import { ToastContainer } from 'react-toastify';
 import { DisplayUsersComponent } from './Components/DisplayUsersComponent/DisplayUsersComponent';
 import { EmailComponent } from './Components/EmailComponent/EmailComponent';
 import { NewUserComponent } from './Components/NewUserComponent/NewUserComponent';
+import { UpdateUserComponent } from './Components/UpdateUserComponent/UpdateUserComponent';
+
 
 
 
@@ -47,6 +49,7 @@ function App() {
         <Route exact path='/users' component={SearchUsersComponent}/>
         <Route path = '/contact' render={() => (<EmailComponent />)} />
         <Route path = '/users/newuser' render={(props)=>(<NewUserComponent {...props}/>)} />
+        <Route path = '/users/updateuser' render={(props)=>(<UpdateUserComponent {...props}/>)} />
       </Router>
       <ToastContainer position='bottom-right'/>
       </Provider>
