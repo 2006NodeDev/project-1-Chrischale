@@ -12,7 +12,8 @@ export function userDTOtoUser(uto: UserDTO):User{
         lastName: uto.last_name,
         address: uto.address,
         email: uto.email,
-        roleDetails: { roleID: uto.role_id, role: uto.role }
+        roleDetails: { roleID: uto.role_id, role: uto.role },
+        image:uto.image
     }
 
 }

@@ -7,6 +7,8 @@ import { IState } from '../../Reducers';
 import { newuserActionMapper , newuserErrorReset } from '../../ActionMappers/newuser-action-mapper';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { isUndefined } from 'util';
+import { User } from '../../Models/Users';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -38,6 +40,7 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
     const [lastname, changeLastName] = useState('')
     const [address, changeAddress] = useState('')
     const [email, changeEmail] = useState('')
+    const [image, changeImage] = useState(null)
 
     const updateUsername = (event:any) => {
       event.preventDefault()
@@ -64,10 +67,20 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
       changeAddress(event.currentTarget.value)
   }
 
+  const updateImage = (event:any) => {
+    let file:File = event.currentTarget.files[0]
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      changeImage(reader.result)
+    }
+  }
+
     const dispatch = useDispatch()
     
     const newUserSubmit = async (e:SyntheticEvent) => {
       e.preventDefault()
+      
         // e.preventDefault()
         // let res = await backendNewUser(username, password, firstname, lastname, address, email)
         // console.log("new user submit response in compontn" + res)
@@ -75,7 +88,7 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
         // props.changeNewUser(res)
         // props.history.push(`/profile/${res.userId}`) 
         
-        let thunk = newuserActionMapper(username, password, firstname, lastname, address, email)
+        let thunk = newuserActionMapper(username, password, firstname, lastname, address, email, image)
         dispatch(thunk) 
     }
 
@@ -88,6 +101,7 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
 
     useEffect(()=>{
       if(newUser){
+        console.log("new user was created:" + newUser.username)
   
         props.history.push(`/profile/${newUser.userId}`)
   
@@ -102,7 +116,6 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
       <TextField
           id="standard-password-input"
           label="Username"
-          type="username"
           autoComplete="off"
           value ={username} 
           onChange = {updateUsername}
@@ -155,6 +168,13 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
           onChange = {updateEmail}
 
         />
+        <br />
+        <label htmlFor='file'>
+          Profile Picture
+        </label>
+        <hr />
+        <input type='file' name='file' accept='image/*' onChange={updateImage}></input>
+        <img src={image} width="150" height="200"/>
         <hr />
 
         <Button type = 'submit' variant = 'contained' color = 'primary' onClick={newUserSubmit}> Submit </Button>

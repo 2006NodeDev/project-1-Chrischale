@@ -2,7 +2,7 @@ import express, { Response, Request, NextFunction } from 'express'
 import { uRouter } from './routers/user-router' 
 import { sessionMiddleware } from './middleware/session-middleware'
 import { BadCredError } from './errors/Bad CredentialsErr'
-import { getUserByUsernamePassword } from './dao/users-dao'
+import { getUserByUsernamePassword } from './dao/SQL/users-dao'
 import { corsFilter } from './middleware/cors-filter'
 import { loggingMiddleware } from './middleware/logging-middleware'
 
@@ -11,7 +11,8 @@ const app = express()
 
 
 //to ensure a body parser is used. <- middleware!
-app.use(express.json())
+app.use(express.json({limit:'50mb'}))
+//increased file size handling to be able to handle images
 
 app.use(loggingMiddleware)
 
@@ -31,6 +32,7 @@ app.get('/health', (req:Request, res:Response) => {
 app.post('/login', async (req:Request, res:Response, next:NextFunction) => {
     //assign request's username and password to variables to compare
     let uname = req.body.username
+    console.log("req.body.username: " + uname)
     let pwd = req.body.password
 
     if(!(uname || pwd)){
@@ -38,6 +40,7 @@ app.post('/login', async (req:Request, res:Response, next:NextFunction) => {
     } else {
         try{
             let result_user = await getUserByUsernamePassword(uname,pwd)
+            console.log("we hit the index backend")
             req.session.user = result_user
             res.json(result_user)
 

@@ -9,4 +9,5 @@ export interface User{
     address:string
     email: string // not null
     roleDetails: Role // not null
+    image?:string
 }

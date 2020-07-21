@@ -74,12 +74,8 @@ export const LoginComponent: FunctionComponent <any> = (props) => {
         // props.changeCurrUser(res)
         // changePassword('')
 
-        
-
         let thunk = loginActionMapper(username, password)
         dispatch(thunk)
-        
-        
          
           
     }

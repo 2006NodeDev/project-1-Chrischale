@@ -1,10 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express'
 import { authorizationMiddleware } from '../middleware/authoriz-middleware'
 import {authenticationMiddleware} from '../middleware/authent-middleware'
-import { getAllUsers, findUserbyID, updateUser, newUser } from '../dao/users-dao'
+import { getAllUsers, findUserbyID, updateUser, newUser } from '../dao/SQL/users-dao'
 import { UserIdIncorrectError } from '../errors/UserIdIncorrectErr'
 import { User } from '../models/Users'
 import { BadCredError } from '../errors/Bad CredentialsErr'
+//import { createNewUserService, getAllUsersService, getUserByIDService } from '../services/user-service'
 
 
 export const uRouter = express.Router()
@@ -14,14 +15,14 @@ export const uRouter = express.Router()
 uRouter.put('/newuser', async (req:Request, res:Response, next: NextFunction) => {
     
     let new_user: User = req.body
-    console.log(new_user)
+    console.log("router!:" + new_user)
       
     try{
         if (!(new_user.username || new_user.password || new_user.firstName || new_user.lastName)){
-            throw new Error ('Please Fill All Fields')
+            throw new Error ('Please Fill Required Fields')
         }else{
             let result = await newUser(new_user)
-            console.log(result)
+            //let result = await createNewUserService(new_user)
             res.json(result)    
 
         }
@@ -46,6 +47,7 @@ uRouter.get('/', authenticationMiddleware, authorizationMiddleware(['Finance Man
     try{
 
         let user_return = await getAllUsers()
+//        let user_return = await getAllUsersService()
         res.json(user_return)
     
     } catch (err) {
@@ -65,6 +67,7 @@ uRouter.get('/:id', authenticationMiddleware, authorizationMiddleware(['Finance 
     } else {
         try{
             let ret_user = await findUserbyID(+req_id)
+//            let ret_user = await getUserByIDService(+req_id)
             res.json(ret_user)
         }catch (err){
             next(err)
@@ -92,6 +95,8 @@ uRouter.patch('/:id', authenticationMiddleware, async (req:Request, res:Response
             } else if(!upd_user){
                 throw new Error ('Please provide details to update')
             }
+
+            
 
             let result = await updateUser(upd_user)
             res.json(result)

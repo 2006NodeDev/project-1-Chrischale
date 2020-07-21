@@ -9,6 +9,7 @@ export const backendLogin = async (username:string, password:string) => {
         username,
         password
     }
+    console.log("creds into backeng login:" + credentials)
     try{
         let response = await proj1Client.post('/login', credentials)
         console.log(response)

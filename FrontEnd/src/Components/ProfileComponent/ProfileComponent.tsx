@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom'
 
 
 
+
 const useStyles = makeStyles({
     card: {
       display: 'flex',
@@ -56,12 +57,13 @@ export const ProfileComponent:FunctionComponent<any> = (props) => {
         
         (userProfile)?
         <div>
-            <Link to='/profile/users/updateuser'>
+            <Link to='/users/updateuser'>
             <Button>Update Profile</Button>
             </Link>
 
            <Grid item xs={12} md={6}>
             <CardActionArea component="a" href="#">
+          
             <Card className={classes.card}>
             <div className={classes.cardDetails}>
                 <CardContent>

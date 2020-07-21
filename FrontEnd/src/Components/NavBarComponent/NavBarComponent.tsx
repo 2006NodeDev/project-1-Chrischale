@@ -108,14 +108,15 @@ export const NavBarComponent: FunctionComponent <any> = (props) =>{
     if(currUser){
         menuItems.push(<MenuItem onClick={handleClose}><Link to='/'>Home</Link></MenuItem>,
         <MenuItem onClick={handleClose}> <Link to={`/profile/${currUser.userId}`}>My Profile</Link></MenuItem>,
+        <MenuItem onClick={handleClose}> <Link to='/users'>All Users</Link></MenuItem>,
         <MenuItem onClick={handleClose}><Link to='/contact'>Contact</Link></MenuItem>)
     }
 
 
-    if(currUser && currUser.roleDetails.role === ('Finance Manager' || 'Admin')){
-      menuItems.push(<MenuItem onClick={handleClose}> <Link to='/users'>All Users</Link></MenuItem>)
+    // if(currUser && currUser.roleDetails.role === ('Finance Manager' || 'Admin')){
+    //   menuItems.push(<MenuItem onClick={handleClose}> <Link to='/users'>All Users</Link></MenuItem>)
       
-    }
+    // }
 
     return (
 

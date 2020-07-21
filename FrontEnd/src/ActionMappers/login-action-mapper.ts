@@ -13,6 +13,7 @@ export const loginTypes = {
 }
 
 export const loginActionMapper = (username:string, password:string) => async (dispatch:any) => {
+    console.log("action mapper:" + username + password)
     try{
         let currUser = await backendLogin(username, password)
         console.log(currUser)
