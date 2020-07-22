@@ -7,9 +7,9 @@ interface ITitleProps{
 
 export const TitleComponent: FunctionComponent<ITitleProps> = (props) => {
     switch(props.size){
-        case 'small':{
+        case 'large':{
             return(
-                <h6>{props.title}</h6>
+                <h1>{props.title}</h1>
             )
 
         }
@@ -19,9 +19,9 @@ export const TitleComponent: FunctionComponent<ITitleProps> = (props) => {
             )
 
         }
-        case 'large':{
+        case 'small':{
             return(
-                <h1>{props.title}</h1>
+                <h6>{props.title}</h6>
             )
 
         } 

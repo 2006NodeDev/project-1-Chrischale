@@ -68,20 +68,11 @@ export const LoginComponent: FunctionComponent <any> = (props) => {
 
     const loginSubmit = async (e:SyntheticEvent) => {
         e.preventDefault()
-        // let res = await backendLogin(username, password)
-        // console.log(res)
-        
-        // props.changeCurrUser(res)
-        // changePassword('')
-
         let thunk = loginActionMapper(username, password)
         dispatch(thunk)
-         
-          
     }
 
     useEffect(()=>{
-
       if(errorMessage){
           toast.error(errorMessage)
           dispatch(loginErrorReset())
@@ -90,9 +81,7 @@ export const LoginComponent: FunctionComponent <any> = (props) => {
 
   useEffect(()=>{
     if(user){
-
       props.history.push(`/profile/${user.userId}`)
-
     }
   })
 

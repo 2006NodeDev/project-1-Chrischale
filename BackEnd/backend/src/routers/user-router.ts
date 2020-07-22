@@ -1,5 +1,4 @@
 import express, { Request, Response, NextFunction } from 'express'
-import { authorizationMiddleware } from '../middleware/authoriz-middleware'
 import {authenticationMiddleware} from '../middleware/authent-middleware'
 import { getAllUsers, findUserbyID, updateUser, newUser } from '../dao/SQL/users-dao'
 import { UserIdIncorrectError } from '../errors/UserIdIncorrectErr'
@@ -43,10 +42,9 @@ uRouter.put('/newuser', async (req:Request, res:Response, next: NextFunction) =>
 
 
 //Find Users
-uRouter.get('/', authenticationMiddleware, authorizationMiddleware(['Finance Manager']), async (req:Request, res:Response, next:NextFunction) => {
+uRouter.get('/', authenticationMiddleware,  async (req:Request, res:Response, next:NextFunction) => {
 
     try{
-
         let user_return = await getAllUsers()
 //        let user_return = await getAllUsersService()
         res.json(user_return)
@@ -60,7 +58,7 @@ uRouter.get('/', authenticationMiddleware, authorizationMiddleware(['Finance Man
 
 
 //Find User by id
-uRouter.get('/:id', authenticationMiddleware, authorizationMiddleware(['Finance Manager']), async (req:Request, res:Response, next:NextFunction)=>{
+uRouter.get('/:id', authenticationMiddleware, async (req:Request, res:Response, next:NextFunction)=>{
     let req_id = req.params.id
     //console.log(req_id)
     if (isNaN(+req_id)){

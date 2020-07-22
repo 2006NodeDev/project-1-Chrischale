@@ -2,7 +2,7 @@
 
 import 'react-toastify/dist/ReactToastify.css';
 
-import React, { FunctionComponent, useState, useEffect } from 'react'
+import React, { FunctionComponent, useState, useEffect, SyntheticEvent } from 'react'
 import { SearchUsersComponent } from '../SearchUsersComponent/SearchUsersComponent'
 import { User } from '../../Models/Users'
 import { useParams } from 'react-router'
@@ -12,7 +12,9 @@ import { IState } from '../../Reducers'
 import { Grid, Paper, makeStyles, createStyles, Theme, CardActionArea, Card, CardContent, Typography, Hidden, CardMedia, Button } from '@material-ui/core'
 import { DisplayUsersComponent } from '../DisplayUsersComponent/DisplayUsersComponent'
 import { EmailComponent } from '../EmailComponent/EmailComponent'
+import { profileActionMapper, profileErrorReset } from '../../ActionMappers/profile-action-mapper';
 import { Link } from 'react-router-dom'
+import { toast } from 'react-toastify';
 
 
 
@@ -32,11 +34,38 @@ const useStyles = makeStyles({
 
 
 export const ProfileComponent:FunctionComponent<any> = (props) => {
-    let[userProfile, changeUserProfile] = useState <null | User>(null)
+    let[userProfile, changeUserProfile] = useState(null)
     let {userId} = useParams()
     //to get userID from the path
+    console.log("profile comp user id:" + userId)
+    console.log("userProfile" + userProfile)
+
+    const newUser = useSelector((state:IState) => {
+        return state.loginState.currUser
+    })
+  
+    const errorMessage = useSelector((state:IState) => {
+        return state.loginState.errorMessage
+    })
+
+
+
+    const dispatch = useDispatch()
+
+    // let thunk = profileActionMapper(userProfile.userID)
+    // dispatch(thunk)
+         
+
+    useEffect(()=>{
+
+      if(errorMessage){
+          toast.error(errorMessage)
+          dispatch(profileErrorReset())
+      }
+    })
     
     useEffect(() => {
+        
         let getUser = async()=>{
             let userInfo = await getUserProfile(userId)
             changeUserProfile(userInfo)
@@ -51,7 +80,7 @@ export const ProfileComponent:FunctionComponent<any> = (props) => {
 
     
     const classes = useStyles();
-    console.log(userProfile)
+    
  
     return(
         
@@ -67,6 +96,7 @@ export const ProfileComponent:FunctionComponent<any> = (props) => {
             <Card className={classes.card}>
             <div className={classes.cardDetails}>
                 <CardContent>
+            
                 <Typography component="h2" variant="h5">
                     NAME: {userProfile.firstName} {userProfile.lastName}
                 </Typography>

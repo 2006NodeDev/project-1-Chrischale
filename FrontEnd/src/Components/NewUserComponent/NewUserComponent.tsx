@@ -26,13 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const NewUserComponent:FunctionComponent<any> = ((props) => {
     const classes = useStyles();
 
-    const newUser = useSelector((state:IState) => {
-      return state.loginState.currUser
-    })
-
-    const errorMessage = useSelector((state:IState) => {
-      return state.loginState.errorMessage
-    })
+    
 
     const [username, changeUsername] = useState('')
     const [password, changePassword] = useState('')
@@ -42,7 +36,7 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
     const [email, changeEmail] = useState('')
     const [image, changeImage] = useState(null)
 
-    const updateUsername = (event:any) => {
+  const updateUsername = (event:any) => {
       event.preventDefault()
       changeUsername(event.currentTarget.value)
   }
@@ -92,6 +86,14 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
         dispatch(thunk) 
     }
 
+    const newUser = useSelector((state:IState) => {
+      return state.loginState.currUser
+    })
+
+    const errorMessage = useSelector((state:IState) => {
+      return state.loginState.errorMessage
+    })
+
     useEffect(() => {
       if(errorMessage){
         toast.error(errorMessage)
@@ -101,7 +103,7 @@ export const NewUserComponent:FunctionComponent<any> = ((props) => {
 
     useEffect(()=>{
       if(newUser){
-        console.log("new user was created:" + newUser.username)
+        console.log("new user was created:" + newUser.username + newUser.userId)
   
         props.history.push(`/profile/${newUser.userId}`)
   

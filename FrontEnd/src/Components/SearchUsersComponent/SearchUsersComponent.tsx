@@ -19,7 +19,7 @@ export const SearchUsersComponent:FunctionComponent<any> = (props) => {
         if(allUsers.length === 0){
             getUsers()
         }
-    })
+    })  
 
     let userDisplays = allUsers.map((user)=>{
         return <DisplayUsersComponent key={'user-key-' + user.userId} user={user}/>
