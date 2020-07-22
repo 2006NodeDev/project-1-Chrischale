@@ -3,9 +3,10 @@ import { proj1Client } from "."
 
 
 
-export const backendNewUser = async (username:string, password:string, firstName:string, lastName:string,  address:string, email:string, role:string, image:string) => {
+export const backendNewUser = async (userId: number, username:string, password:string, firstName:string, lastName:string,  address:string, email:string, role:string, image:string) => {
     
     let credentials = {
+        userId,
         username,
         password,
         firstName,

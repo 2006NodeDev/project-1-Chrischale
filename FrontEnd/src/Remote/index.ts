@@ -1,8 +1,9 @@
 import axios from 'axios'
+import {p1BaseUrl} from '../environment'
 
 export const proj1Client = axios.create({
     //baseURL:'http://localhost:2020',
-    baseURL:'http://35.190.10.193:80',
+    baseURL:p1BaseUrl,
     headers:{
         'Content-Type':'application/json'
     },

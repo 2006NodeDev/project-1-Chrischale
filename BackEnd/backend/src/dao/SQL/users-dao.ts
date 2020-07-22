@@ -19,7 +19,7 @@ export async function getUserByUsernamePassword(username: string, password:strin
         client = await connectionPool.connect() //gives you a promise, so you take it out of the stack to prevent blocking
         
         let result:QueryResult = await client.query(`select * from ers."users" u where u."username" = $1 and u."password" = $2;`, [username, password])
-        //doesnt even get past this point - why???????????
+
         if(!result){
             console.log("no result from client query :(")
         }
@@ -160,7 +160,6 @@ export async function newUser(new_user: User) : Promise <User> {
         let n = await client.query(`select * from ers."users" u where u."username" = $1;`, [new_user.username])
         
         let existingUser = (n.rows[0])
-        console.log("existing" + existingUser)
 
         if(existingUser){
             throw Error ("Username Already Taken")
@@ -168,10 +167,11 @@ export async function newUser(new_user: User) : Promise <User> {
        
         let result = await client.query(`insert into ers."users" ("username", "password", "first_name", "last_name", "address", "email", "role_id", "role", "image")
         values ($1, $2, $3, $4, $5, $6, $7, $8, $9) returning *;`, [new_user.username, new_user.password, new_user.firstName, new_user.lastName, new_user.address, new_user.email, '2', "User", new_user.image])
-        console.log(result.rows[0])
-        return result.rows[0]
+        console.log("dto user" + userDTOtoUser(result.rows[0]))
+        return (userDTOtoUser(result.rows[0]))
              
     }catch (err){
+        console.log(err)
         if (err.message === 'ID is not a number'){
             throw new TypeError
         }
@@ -180,7 +180,6 @@ export async function newUser(new_user: User) : Promise <User> {
             throw new UsernameTakenError
         }
         
-        console.log(err)
         throw new Error('Unimplimented id error')
         
     }finally{

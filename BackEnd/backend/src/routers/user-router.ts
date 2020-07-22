@@ -15,7 +15,7 @@ export const uRouter = express.Router()
 uRouter.put('/newuser', async (req:Request, res:Response, next: NextFunction) => {
     
     let new_user: User = req.body
-    console.log("router!:" + new_user)
+
       
     try{
         if (!(new_user.username || new_user.password || new_user.firstName || new_user.lastName)){
@@ -29,6 +29,7 @@ uRouter.put('/newuser', async (req:Request, res:Response, next: NextFunction) =>
 
 
     }catch (err){
+        console.log(err)
         if(err.message === 'Please Fill All Fields'){
             throw BadCredError
         }

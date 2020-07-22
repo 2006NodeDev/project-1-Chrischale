@@ -13,8 +13,9 @@ export const newuserTypes = {
 
 export const newuserActionMapper = (username:string, password:string, firstName:string, lastName:string, address:string, email:string, image:string)=> async (dispatch:any) => {
     let default_role = "User"
+    let userId = 0
     try{
-        let currUser = await backendNewUser(username, password, firstName, lastName, address, email, default_role, image)
+        let currUser = await backendNewUser(userId, username, password, firstName, lastName, address, email, default_role, image)
         console.log(currUser)
         dispatch({
             type:newuserTypes.LOGIN_SUCCESSFUL,
