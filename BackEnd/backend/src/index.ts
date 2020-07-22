@@ -5,7 +5,13 @@ import { BadCredError } from './errors/Bad CredentialsErr'
 import { getUserByUsernamePassword } from './dao/SQL/users-dao'
 import { corsFilter } from './middleware/cors-filter'
 import { loggingMiddleware } from './middleware/logging-middleware'
+import './event-listeners/new-user'
+import { userTopic } from './messaging/index'
 
+console.log(userTopic)
+// userTopic.then((val) => {
+//     console.log(val[0])
+// })
 
 const app = express()
 

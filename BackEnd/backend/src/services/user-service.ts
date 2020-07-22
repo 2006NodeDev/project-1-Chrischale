@@ -2,6 +2,7 @@ import { getAllUsers, findUserbyID, newUser } from "../dao/SQL/users-dao";
 import { User } from "../models/Users";
 import { saveProfilePicture } from "../dao/CloudStorage/user-images";
 import { bucketURL } from "../dao/CloudStorage";
+import { expressEventEmitter, customExpressEvents } from "../event-listeners";
 
 
 //service function to expand cloud funcs when we get to it
@@ -27,6 +28,9 @@ export async function createNewUserService(newuser:User):Promise<User>{
     }
     let savenewUser = await newUser(newuser)
     await saveProfilePicture(contentType, imagebase64Data, `/users/${newuser.username}/profile.${contentType}`)
+    //amke th user and then let the events know that it was made so they can do their thing
+    expressEventEmitter.emit(customExpressEvents.NEW_USER, newuser)
+    
     return savenewUser
 
 
