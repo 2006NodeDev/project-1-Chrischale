@@ -12,6 +12,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import { Link, useParams } from 'react-router-dom';
 
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -29,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    let {userId} = useParams()
 
     const handleClickOpen = () => {
       setOpen(true);
@@ -39,13 +41,7 @@ export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
     };
   
 
-    const user = useSelector((state:IState) => {
-      return state.loginState.currUser
-    })
-
-    const errorMessage = useSelector((state:IState) => {
-      return state.loginState.errorMessage
-    })
+    
 
     const [username, changeUsername] = useState('')
     const [password, changePassword] = useState('')
@@ -54,6 +50,7 @@ export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
     const [address, changeAddress] = useState('')
     const [email, changeEmail] = useState('')
     const [role, changeRole] = useState('')
+    const [image, changeImage] = useState(null)
 
   const updateUsername = (event:any) => {
       event.preventDefault()
@@ -83,8 +80,17 @@ export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
     event.preventDefault()
     changeRole(event.currentTarget.value)
 }
+const updateImage = (event:any) => {
+  let file:File = event.currentTarget.files[0]
+  let reader = new FileReader()
+  reader.readAsDataURL(file)
+  reader.onload = () => {
+    changeImage(reader.result)
+  }
+}
 
     const dispatch = useDispatch()
+
     
     const updatedUserSubmit = async (e:SyntheticEvent) => {
       e.preventDefault()
@@ -95,10 +101,17 @@ export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
         // props.changeNewUser(res)
         // props.history.push(`/profile/${res.userId}`) 
         
-        let thunk = updateUserActionMapper(username, password, firstname, lastname, address, email, role)
+        let thunk = updateUserActionMapper(userId, username, password, firstname, lastname, address, email, role, image)
         dispatch(thunk) 
         
     }
+    const updatedUser = useSelector((state:IState) => {
+      return state.loginState.currUser
+    })
+
+    const errorMessage = useSelector((state:IState) => {
+      return state.loginState.errorMessage
+    })
 
     useEffect(() => {
       if(errorMessage){
@@ -107,9 +120,12 @@ export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
       }
     })
 
-    useEffect(()=>{
-        props.history.push(`/profile/${user.userId}`)
-    })
+    // useEffect(()=>{
+    //   if(updatedUser){
+    //     props.history.push(`/profile/${updatedUser.userId}`)
+
+    //   }
+    // })
 
     
 
@@ -184,9 +200,16 @@ export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
           onChange = {updateRole}
           
         />
+        <br />
+        <label htmlFor='file'>
+          Profile Picture
+        </label>
+        <hr />
+        <input type='file' name='file' accept='image/*' onChange={updateImage}></input>
+        <img src={image} width="150" height="200"/>
         <hr />
 
-        <Button type = 'submit' variant = 'contained' color = 'secondary' onClick={handleClickOpen}> Update </Button>
+        <Button type = 'submit' variant = 'contained' color = 'secondary' onClick={handleClickOpen}> Submit </Button>
         <Dialog
         open={open}
         onClose={handleClose}
@@ -201,11 +224,13 @@ export const UpdateUserComponent:FunctionComponent<any> = ((props) => {
         </DialogContent>
         <DialogActions>
           
+          <Link to={`/profile/${userId}`}>
           <Button onClick={updatedUserSubmit} color="secondary">
             Update
           </Button>
+          </Link>
           <Button onClick={handleClose} color="secondary" autoFocus>
-            Cancel
+            Back
           </Button>
         </DialogActions>
       </Dialog>

@@ -5,7 +5,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import React, { FunctionComponent, useState, useEffect, SyntheticEvent } from 'react'
 import { SearchUsersComponent } from '../SearchUsersComponent/SearchUsersComponent'
 import { User } from '../../Models/Users'
-import { useParams } from 'react-router'
+import { useParams, Redirect } from 'react-router'
 import { getUserProfile } from '../../Remote/backend-getUserProfile'
 import { useSelector, useDispatch } from 'react-redux'
 import { IState } from '../../Reducers'
@@ -87,7 +87,7 @@ export const ProfileComponent:FunctionComponent<any> = (props) => {
         (userProfile)?
         <div>
             <Link to='/users/updateuser'>
-            <Button>Update Profile</Button>
+            Update Profile
             </Link>
 
            <Grid item xs={12} md={6}>

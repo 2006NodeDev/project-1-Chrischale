@@ -11,9 +11,9 @@ export const updateUserTypes = {
 
 }
 
-export const updateUserActionMapper = (username:string, password:string, firstName:string, lastName:string, address:string, email:string, role:string)=> async (dispatch:any) => {
+export const updateUserActionMapper = (userId:number, username:string, password:string, firstName:string, lastName:string, address:string, email:string, role:string, image:string)=> async (dispatch:any) => {
     try{
-        let currUser = await backendUpdateUser(username, password, firstName, lastName, address, email, role)
+        let currUser = await backendUpdateUser(userId, username, password, firstName, lastName, address, email, role, image)
         console.log(currUser)
         dispatch({
             type:updateUserTypes.UPDATE_SUCCESSFUL,

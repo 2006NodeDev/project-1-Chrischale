@@ -3,7 +3,7 @@ import { proj1Client } from "."
 
 
 
-export const backendUpdateUser = async (username:string, password:string, firstName:string, lastName:string,  address:string, email:string, role:string) => {
+export const backendUpdateUser = async (userId: number, username:string, password:string, firstName:string, lastName:string,  address:string, email:string, role:string, image:string) => {
     
     let credentials = {
         username,
@@ -12,10 +12,11 @@ export const backendUpdateUser = async (username:string, password:string, firstN
         lastName,
         address,
         email,
-        role   
+        role,
+        image   
     }
     try{
-        let response = await proj1Client.patch(`/users`, credentials)
+        let response = await proj1Client.patch(`/users/${userId}`, credentials)
         //console.log("backend response" + response)
         return response.data
 
